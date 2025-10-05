@@ -14,3 +14,41 @@ def read_csv(filename):
         reader = csv.DictReader(csvfile)
         data = [row for row in reader]
     return data
+
+
+# Function 2: Calculate average body mass per species per island
+def calculate_avg_body_mass(data):
+    # Dictionary to store sums and counts
+    result = {}
+    
+    for row in data:
+        species = row['species']
+        island = row['island']
+        mass = row['body_mass_g']
+        
+        # Skip missing data
+        if mass == '' or species == '' or island == '':
+            continue
+        
+        mass = float(mass)
+        
+        # Initialize nested dictionaries
+        if island not in result:
+            result[island] = {}
+        if species not in result[island]:
+            result[island][species] = {'total_mass': 0, 'count': 0}
+        
+        # Add mass and count
+        result[island][species]['total_mass'] += mass
+        result[island][species]['count'] += 1
+    
+    # Calculate averages
+    avg_result = {}
+    for island in result:
+        avg_result[island] = {}
+        for species in result[island]:
+            total = result[island][species]['total_mass']
+            count = result[island][species]['count']
+            avg_result[island][species] = round(total / count, 2)
+    
+    return avg_result
