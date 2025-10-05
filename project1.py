@@ -83,3 +83,16 @@ def calculate_sex_percentage(data):
         }
     
     return perc_result
+
+
+# Function 4: Write dictionary results to CSV
+def write_results_to_csv(results, output_file):
+    with open(output_file, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        # Determine headers
+        headers = ['Island'] + list(next(iter(results.values())).keys())
+        writer.writerow(headers)
+        
+        for island, values in results.items():
+            row = [island] + [values[key] for key in values]
+            writer.writerow(row)
