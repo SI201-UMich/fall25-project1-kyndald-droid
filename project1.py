@@ -96,3 +96,22 @@ def write_results_to_csv(results, output_file):
         for island, values in results.items():
             row = [island] + [values[key] for key in values]
             writer.writerow(row)
+
+
+# Main program
+def main():
+    # Read the data
+    data = read_csv('penguins.csv')
+    
+    # Calculation 1
+    avg_mass = calculate_avg_body_mass(data)
+    write_results_to_csv(avg_mass, 'avg_body_mass.csv')
+    
+    # Calculation 2
+    sex_percentages = calculate_sex_percentage(data)
+    write_results_to_csv(sex_percentages, 'sex_percentages.csv')
+    
+    print("Analysis complete! Results written to avg_body_mass.csv and sex_percentages.csv")
+
+if __name__ == '__main__':
+    main()
