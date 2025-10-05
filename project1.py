@@ -9,8 +9,8 @@
 import csv
 
 # Function 1: Read CSV into a list of dictionaries
-def read_csv(filename):
-    with open(filename, newline='') as csvfile:
+def read_csv(penguins_size.csv):
+    with open('penguins_size.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         data = [row for row in reader]
     return data
