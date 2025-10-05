@@ -52,3 +52,34 @@ def calculate_avg_body_mass(data):
             avg_result[island][species] = round(total / count, 2)
     
     return avg_result
+
+
+# Function 3: Calculate percentage of male vs female penguins per island
+def calculate_sex_percentage(data):
+    result = {}
+    
+    for row in data:
+        island = row['island']
+        sex = row['sex']
+        
+        if island == '' or sex == '':
+            continue
+        
+        if island not in result:
+            result[island] = {'male': 0, 'female': 0}
+        
+        if sex.lower() == 'male':
+            result[island]['male'] += 1
+        elif sex.lower() == 'female':
+            result[island]['female'] += 1
+    
+    # Convert counts to percentages
+    perc_result = {}
+    for island in result:
+        total = result[island]['male'] + result[island]['female']
+        perc_result[island] = {
+            'male_percentage': round((result[island]['male'] / total) * 100, 2),
+            'female_percentage': round((result[island]['female'] / total) * 100, 2)
+        }
+    
+    return perc_result
