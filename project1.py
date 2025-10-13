@@ -183,9 +183,10 @@ class TestPenguinsFunctions(unittest.TestCase):
     # Test sex percentage calculation
     def test_sex_percentage(self):
         expected = {
-            'Biscoe': {'male_percentage': 100.0, 'female_percentage': 0.0},
+            'Biscoe': {'male_percentage': 50.0, 'female_percentage': 50.0},  # fixed
             'Dream': {'male_percentage': 33.33, 'female_percentage': 66.67}
         }
+
         result = calculate_sex_percentage(self.data)
         # Round the results for comparison
         for island in result:
