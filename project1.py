@@ -16,9 +16,9 @@
 
 import csv
 
-# ----------------------------
+
 # Function 1: Read CSV
-# ----------------------------
+
 def read_csv(filename):
     """
     Reads a CSV file and returns a list of dictionaries.
@@ -37,9 +37,9 @@ def read_csv(filename):
     
     return data
 
-# ----------------------------
+
 # Function 2: Average body mass per species per island
-# ----------------------------
+
 def calculate_avg_body_mass(data):
     result = {}
     
@@ -78,9 +78,9 @@ def calculate_avg_body_mass(data):
     
     return avg_result
 
-# ----------------------------
+
 # Function 3: Percentage of male vs female penguins per island
-# ----------------------------
+
 def calculate_sex_percentage(data):
     result = {}
     
@@ -112,9 +112,9 @@ def calculate_sex_percentage(data):
     
     return perc_result
 
-# ----------------------------
+
 # Function 4: Write dictionary results to CSV
-# ----------------------------
+
 def write_results_to_csv(results, output_file):
     if not results:
         print(f"No data to write to {output_file}")
@@ -129,9 +129,9 @@ def write_results_to_csv(results, output_file):
             row = [island] + [values[key] for key in values]
             writer.writerow(row)
 
-# ----------------------------
+ 
 # Main Program
-# ----------------------------
+
 def main():
     # UPDATE THIS PATH TO THE LOCATION OF YOUR CSV FILE
     csv_path = '/Users/kyndalduncan/SI201/fall25-project1-kyndald-droid/penguins_size.csv'
@@ -154,3 +154,50 @@ def main():
 # Run main
 if __name__ == '__main__':
     main()
+# ----------------------------
+# Unit Tests for Project 1
+# ----------------------------
+import unittest
+
+class TestPenguinsFunctions(unittest.TestCase):
+    
+    def setUp(self):
+        # Sample data for testing calculations
+        self.data = [
+            {'species': 'Adelie', 'island': 'Biscoe', 'body_mass_g': '3700', 'sex': 'male'},
+            {'species': 'Adelie', 'island': 'Biscoe', 'body_mass_g': 'NA', 'sex': 'female'},
+            {'species': 'Gentoo', 'island': 'Dream', 'body_mass_g': '5000', 'sex': 'female'},
+            {'species': 'Chinstrap', 'island': 'Dream', 'body_mass_g': '3550', 'sex': 'male'},
+            {'species': 'Adelie', 'island': 'Dream', 'body_mass_g': '3750', 'sex': 'female'}
+        ]
+    
+    # Test average body mass calculation
+    def test_avg_body_mass(self):
+        expected = {
+            'Biscoe': {'Adelie': 3700.0},
+            'Dream': {'Gentoo': 5000.0, 'Chinstrap': 3550.0, 'Adelie': 3750.0}
+        }
+        result = calculate_avg_body_mass(self.data)
+        self.assertEqual(result, expected)
+    
+    # Test sex percentage calculation
+    def test_sex_percentage(self):
+        expected = {
+            'Biscoe': {'male_percentage': 100.0, 'female_percentage': 0.0},
+            'Dream': {'male_percentage': 33.33, 'female_percentage': 66.67}
+        }
+        result = calculate_sex_percentage(self.data)
+        # Round the results for comparison
+        for island in result:
+            for key in result[island]:
+                result[island][key] = round(result[island][key], 2)
+        self.assertEqual(result, expected)
+    
+    # Test empty data
+    def test_empty_data(self):
+        self.assertEqual(calculate_avg_body_mass([]), {})
+        self.assertEqual(calculate_sex_percentage([]), {})
+
+# Run the tests
+print("\nRunning unit tests...\n")
+unittest.main(argv=[''], exit=False)
